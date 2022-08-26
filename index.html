@@ -287,7 +287,7 @@
 
                         <h3>Building a simulated robot for testing algorithms from home</h3>
                         <p>
-                            The first task i've been ask to take care was to build a riliable simulation to test our
+                            The first task i've been ask to take care was to build a reliable simulation to test our
                             algorithm on. Since we did not have a real robot to work on, this task was fundamental
                             for the whole team. I've started following tutorials on Gazebo and ROS best pratictes online
                             and i've
@@ -309,16 +309,16 @@
                         </h3>
                         <h3>Scouting the best opensource planner and localizer</h3>
                         <p>
-                            To delive a prototype as fast as possible to the market we could write a slam algorithm from
+                            To deliver a prototype as fast as possible to the market we could not write a slam algorithm from
                             scratch much less a planning controller. For that reason my task
-                            has been to scout SLAM suite on the opensource network in ROS. I've found several
+                            has been to scout SLAM suites on the opensource network in ROS. I've found several
                             interesting solutions for us, but at the end <a
                                 href="https://introlab.github.io/rtabmap/">RTABMAP</a> demonstrated to be
-                            the most accurate. Using this algorithm we managed to build accurate 3D maps of the
+                            the most accurate. Using this algorithm we manage to build accurate 3D maps of the
                             environment aswell as providing a good localization in medium-wide areas.</br>
                             Planner choice has been quite straight forward since <a
                                 href="http://wiki.ros.org/teb_local_planner">TEB </a> is considered one of the best
-                            planner around.
+                            planner around in ROS.
                         </p>
                         <a href="">View Project on
                             Github</a>
@@ -336,15 +336,13 @@
                         <h3><b>Computer vision pipeline for trash picking</b> </h3>
                         <h3>Get the position of a trash in robot coordinates and pick it</h3>
                         <p>
-                            I build from scratch a computer vision pipeline being able to compute the position of an
+                            I built from scratch a computer vision pipeline being able to compute the position of an
                             object in robot coordinates and plan a trajectory to pick it with the brushes. The input
-                            of this pipeline is the bounding box information provided by the YOLO network our team
-                            trained on our custom dataset; those bounding box information are used to compute the pixel
-                            coordinates
+                            of this pipeline is the bounding box information provided by the our custom YOLO network and 
+                            those bounding box information are used to compute the pixel coordinates
                             of the object in the frontal camera image. Then it comes a pointcloud filtering and
                             segmentation extracting the 3D location of the trash according to the robot center. The
-                            final step
-                            is to command the planner to send the robot to that location.
+                            final step is to command the planner to send the robot to that location.
                         </p>
                         <a href="">View Project on
                             Github</a>
@@ -363,9 +361,9 @@
                         <h3>Avoiding our robot to fall downstairs</h3>
                         <p>
                             For safety reason we had to build some controller checking that the planned trajectory
-                            is safe and for such reason i've been ask to think about a solution about. Since in the 
-                            previous project i've worked a bit with pointclouds, my solution came quite straight. This controller
-                            tryes to segment a ground plane of points from the pointcloud and send alarm once it cannot do it. 
+                            is safe and for such reason i've been ask to think about a solution. Since in the 
+                            previous project i've worked a bit with pointclouds, my solution came quite easy: this controller
+                            tryes to segment a ground plane of points from the pointcloud and send alarm once it cannot. 
                         </p>
                         <a href="">View Project on
                             Github</a>
@@ -384,9 +382,9 @@
                         <h3>Reporting sensors fault reading from topics</h3>
                         <p>
                             ROS1 is not ideal and sometimes it fails to update and send topics
-                            data along the wire. That's why to had to understand when this happens.
-                            This topic and node manager checks in a loop every topic you want to track
-                            and report an alarm for each of them not respond for a certain amount of time. 
+                            data along the wire. That's why we had to understand when this happens: 
+                            this topic and node manager checks in a loop every topic you want to track
+                            and report an alarm for each of them not responding for a certain amount of time.
                         </p>
                         <a href="">View Project on
                             Github</a>
