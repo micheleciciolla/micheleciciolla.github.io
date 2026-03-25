@@ -12,6 +12,44 @@
     <link rel="stylesheet" href="libs/font-awesome/css/font-awesome.min.css">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
+    <style>
+        #about .about-wrapper {
+            display: flex;
+            align-items: stretch;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        #about .about-image {
+            flex: 0 0 350px;
+            max-width: 350px;
+        }
+
+        #about .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        #about .about-content {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        @media (max-width: 768px) {
+            #about .about-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            #about .about-image {
+                flex: 0 0 auto;
+                max-width: 300px;
+                height: 300px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -67,19 +105,17 @@
     <!-- End #lead -->
 
     <div id="about">
-
         <div class="container">
-            <div class="project-image">
-                <img src="images/me.jpg" width="300" />
-            </div>
-
             <div class="row">
-
                 <div class="col-md-4">
                     <h2 class="heading">About Me</h2>
                 </div>
-
-<div class="col-md-8">
+            </div>
+            <div class="about-wrapper">
+                <div class="about-image">
+                    <img src="images/me.jpg" alt="Michele Ciciolla" />
+                </div>
+                <div class="about-content">
                     <p style="margin-bottom: 1.2em;">
                         Hey there, I'm Michele Ciciolla, born and bred in Rome with a lifelong passion for technology. 
                         After finishing up high school, I jumped straight into studying Computer Science Engineering at Università Roma Tre. 
@@ -104,11 +140,8 @@
                         the racing industry, and even the space/defense sector. Let's make some waves in tech!</b>
                     </p>
                 </div>
-
-
             </div>
         </div>
-
     </div>
     <!-- End #about -->
 
@@ -151,14 +184,6 @@
                 </p>
 
             </div>
-
-            <!-- <div data-date="September 2015 – September 2016">
-                <h3>Employer Name</h3>
-                <h4>Job Title</h4>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in iaculis ex. Etiam volutpat laoreet urna. Morbi ut tortor nec nulla commodo malesuada sit amet vel lacus. Fusce eget efficitur libero. Morbi dapibus porta quam laoreet placerat.
-                </p>
-            </div> -->
 
         </div>
 
@@ -281,7 +306,7 @@
             <h4>DeepLearning.AI TensorFlow Developer Professional Certificate</h4>
             <p>
                 In this program, i've got a hands-on <b>Python</b> experience and knowledge about build and train neural
-                networks using <b>TensorFlow</b>, improve network’s performance using Transfer Learning and parameters
+                networks using <b>TensorFlow</b>, improve network's performance using Transfer Learning and parameters
                 tuning, teach machines to understand,
                 analyze, and respond to human speech with natural language processing systems and process text,
                 represent sentences as vectors, and train a model to create original phrases.
