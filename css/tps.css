@@ -1,0 +1,183 @@
+/*
+    Leica TPS 3D-tracking overlay
+    A yellow total station fixed on the left aims a laser at a prism
+    that rides the blue Work-Experience timeline as you scroll.
+*/
+
+#tps-tracker {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 200;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+}
+
+#tps-tracker.tps-active {
+    opacity: 1;
+}
+
+/* --- laser beam layer (full viewport) --- */
+#tps-laser-layer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+#tps-beam {
+    stroke: #ff2d2d;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+}
+
+#tps-beam-glow {
+    stroke: #ff5b5b;
+    stroke-width: 6;
+    stroke-linecap: round;
+    opacity: 0.35;
+    filter: url(#beam-blur);
+}
+
+#tps-hit {
+    fill: #fff;
+    stroke: #ff2d2d;
+    stroke-width: 2;
+}
+
+/* --- the total station --- */
+#tps-station {
+    position: fixed;
+    left: 26px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 96px;
+    filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.25));
+}
+
+#tps-station svg {
+    display: block;
+    width: 96px;
+    height: auto;
+    overflow: visible;
+}
+
+#tps-head {
+    /* rotation applied via transform attribute in JS */
+    transition: none;
+}
+
+.tps-reading {
+    display: block;
+    margin-top: 6px;
+    text-align: center;
+    font-family: "Lato", monospace, sans-serif;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    color: #ff2d2d;
+    text-transform: uppercase;
+}
+
+.tps-reading::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-right: 4px;
+    border-radius: 50%;
+    background: #ff2d2d;
+    vertical-align: middle;
+    animation: tps-blink 1.1s steps(1) infinite;
+}
+
+@keyframes tps-blink {
+    50% { opacity: 0.2; }
+}
+
+/* --- the tracked prism --- */
+#tracking-prism {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 36px;
+    height: 36px;
+    margin: -18px 0 0 -18px; /* center on its computed point */
+    will-change: transform;
+}
+
+#tracking-prism svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    animation: tps-prism-spin 6s linear infinite;
+}
+
+#tracking-prism::after {
+    /* pulsing target ring */
+    content: "";
+    position: absolute;
+    inset: -8px;
+    border: 1.5px solid rgba(92, 220, 255, 0.7);
+    border-radius: 50%;
+    animation: tps-ring 1.8s ease-out infinite;
+}
+
+@keyframes tps-prism-spin {
+    to { transform: rotateY(360deg); }
+}
+
+@keyframes tps-ring {
+    0%   { transform: scale(0.6); opacity: 0.9; }
+    100% { transform: scale(1.4); opacity: 0; }
+}
+
+/* --- timeline marker reacts when the prism passes over it --- */
+.vtimeline-icon {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.vtimeline-icon.tps-locked {
+    background: #2980b9;
+    transform: scale(1.18);
+    box-shadow: 0 0 0 6px rgba(52, 152, 219, 0.25), 0 0 18px rgba(255, 45, 45, 0.55);
+}
+
+/* --- gentle scroll-reveal for the refresh --- */
+.tps-reveal {
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+    will-change: opacity, transform;
+}
+
+.tps-reveal.tps-in {
+    opacity: 1;
+    transform: none;
+}
+
+/* --- mobile: simplified, static station, no heavy tracking --- */
+@media (max-width: 900px) {
+    #tps-station {
+        left: 8px;
+        width: 60px;
+    }
+    #tps-station svg { width: 60px; }
+    .tps-reading { font-size: 7px; letter-spacing: 1px; }
+    #tracking-prism { width: 26px; height: 26px; margin: -13px 0 0 -13px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #tracking-prism svg,
+    #tracking-prism::after,
+    .tps-reading::before {
+        animation: none;
+    }
+    .tps-reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}

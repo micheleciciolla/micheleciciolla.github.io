@@ -1,0 +1,147 @@
+/*
+    Dark theme reskin
+    -----------------
+    Loaded last, overrides the base template colours.
+    Palette: graphite surfaces, soft light text, Leica-yellow + blue accents.
+*/
+
+:root {
+    --bg:        #0f1216;
+    --bg-alt:    #14181e;
+    --surface:   #1b2027;
+    --surface-2: #20262f;
+    --border:    #2a313b;
+    --text:      #e7eaee;
+    --text-soft: #aab3bf;
+    --text-dim:  #8b95a1;
+    --accent:    #4aa8e0; /* timeline / links */
+    --yellow:    #ffcd00; /* Leica */
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* --- headings --- */
+.heading,
+#about h2,
+#experience h2,
+#experience .vtimeline-content h3,
+#education h2,
+#projects h2,
+#skills h2,
+#contact h2,
+.education-block h3,
+.education-block h4,
+.vtimeline-content h3,
+.vtimeline-date {
+    color: var(--text);
+}
+
+.heading:after {
+    background: var(--yellow);
+}
+
+a { color: var(--accent); }
+a:hover { color: var(--yellow); }
+
+/* --- header / nav --- */
+header {
+    background: rgba(15, 18, 22, 0.96);
+    box-shadow: none;
+    border-bottom: 1px solid var(--border);
+}
+
+header.sticky {
+    background: rgba(15, 18, 22, 0.96);
+}
+
+header a { color: var(--text-soft); }
+header a:hover,
+header a:focus { color: var(--yellow); }
+
+#menu.active { background: var(--bg); }
+
+#mobile-menu-open,
+#mobile-menu-close { color: var(--text); background: var(--surface); }
+
+/* --- lead / hero --- */
+#lead-overlay {
+    background: rgba(11, 14, 18, 0.72);
+}
+
+#lead-content h2 { color: var(--yellow); }
+
+.btn-rounded-white {
+    color: var(--yellow);
+    border-color: var(--yellow);
+}
+
+.btn-rounded-white:hover {
+    background: var(--yellow);
+    color: #14181e;
+}
+
+/* --- generic alt background --- */
+.background-alt {
+    background: var(--bg-alt);
+}
+
+/* --- about --- */
+#about { background: var(--bg); border-bottom: 1px solid var(--border); }
+#about p,
+#about .about-content p { color: var(--text-soft); }
+
+/* --- experience timeline --- */
+#experience { border-bottom: 1px solid var(--border); }
+
+.vtimeline-content {
+    background: var(--surface);
+    border: 1px solid var(--border);
+}
+.vtimeline-content h4 { color: var(--text-dim); }
+.vtimeline-content p  { color: var(--text-soft); }
+
+/* --- education --- */
+#education { border-bottom: 1px solid var(--border); }
+.education-block { border: 1px solid var(--border); background: var(--surface); }
+.education-block span { color: var(--text-dim); }
+.education-block h4 { color: var(--text-soft); }
+.education-block p,
+.education-block ul,
+.education-block li { color: var(--text-soft); }
+
+/* --- projects --- */
+.project {
+    background: var(--surface);
+    border: 1px solid var(--border);
+}
+.project-info h3 { color: var(--text); }
+.project-info p  { color: var(--text-soft); }
+
+/* --- skills --- */
+#skills { background: var(--bg); }
+#skills li {
+    background: var(--surface-2);
+    color: var(--text-soft);
+}
+
+/* --- contact --- */
+#contact {
+    background: linear-gradient(160deg, #16213040, transparent), var(--bg-alt);
+}
+#contact h2 { color: var(--text); }
+
+/* --- footer --- */
+footer { background: #0b0e12; }
+.copyright p,
+.top i,
+.social a { color: var(--text-soft); }
+.social a:hover { color: var(--yellow); }
+
+/* card shadows read better dark */
+.shadow,
+.shadow-large {
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
