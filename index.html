@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="libs/font-awesome/css/font-awesome.min.css">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
+    <link href="css/tps.css" rel="stylesheet">
+    <link href="css/dark-theme.css" rel="stylesheet">
     <style>
         #about .about-wrapper {
             display: flex;
@@ -28,8 +30,8 @@
         #about .about-image img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            border-radius: 4px;
+            object-fit: contain;
+            object-position: top center;
         }
 
         #about .about-content {
@@ -87,7 +89,7 @@
     <div id="lead">
         <div id="lead-content">
             <h1>Michele Ciciolla</h1>
-            <h2>Machine Control Software Engineer</h2>
+            <h2>Software Engineer in Machine Control</h2>
             <a href="docs/CICIOLLA_CV.pdf" download="CICIOLLA_CV.pdf" class="btn-rounded-white">Download Resume</a>
         </div>
 
@@ -113,33 +115,34 @@
             </div>
             <div class="about-wrapper">
                 <div class="about-image">
-                    <img src="images/me.jpg" alt="Michele Ciciolla" />
+                    <img src="images/me-nobg.png" alt="Michele Ciciolla" />
                 </div>
                 <div class="about-content">
                     <p style="margin-bottom: 1.2em;">
-                        Hey there, I'm Michele Ciciolla, born and bred in Rome with a lifelong passion for technology. 
-                        After finishing up high school, I jumped straight into studying Computer Science Engineering at Università Roma Tre. 
-                        That's where I got my hands dirty with algorithms, data structures, and automation, all the good stuff.
+                        Right now, I'm developing laser-based positioning systems that help heavy equipment stay aligned
+                        with design models on the job site. My work focuses on the control of road work and construction
+                        site machines using laser positioning and GNSS systems, keeping them on grade and on line in real
+                        time. It's not full autonomous driving, but it's about bringing automation and accuracy to machines
+                        that shape real infrastructure. I enjoy working in Agile/Scrum teams, where software, hardware, and
+                        mechanical experts all come together.
                     </p>
                     <p style="margin-bottom: 1.2em;">
-                        During my undergrad, I got hooked on mobile robotics navigation, and that interest led me to focus my bachelor's thesis on the topic. 
-                        In 2021, I had the chance to sharpen those skills even further at the ETH Zurich Summer School, which was an incredible experience. 
-                        It was such a blast that I decided to keep the momentum going and signed up for a master's program in Artificial Intelligence and Robotics at Università La Sapienza. 
-                        There, I got into some seriously cool stuff like robot kinematics, motion control, computer vision, and deep learning.
+                        Before that, I studied Artificial Intelligence and Robotics in Rome, where I am from. That's where
+                        I built my foundation in robot kinematics, motion control, computer vision, and deep learning — and
+                        my bachelor thesis on mobile robot navigation pushed me toward robotics in the first place.
                     </p>
-                    <p style="margin-bottom: 1.2em;">
-                        These days, I'm working on machine control at Leica Geosystems in Switzerland, where I focus on positioning systems, 
-                        laser measurements, and machine guidance for industrial machines. It's a fantastic blend of the things I love most — precision engineering meets cutting-edge software.
-                    </p>
-                    <p style="margin-bottom: 1.2em;">
-                        When I'm not geeking out over tech, you'll probably find me catching waves out surfing or experimenting with new recipes in the kitchen. 
-                        Cooking and surfing keep me balanced and inspired!
-                    </p>
-                    <p style="margin-bottom: 1.2em;"><b> I'm all about diving into research and development, 
-                        especially when it comes to software engineering for robotics, artificial intelligence, automotive tech, 
-                        the racing industry, and even the space/defense sector. Let's make some waves in tech!</b>
+                    <p style="margin-bottom: 1.2em;"><b>
+                        What excites me most is combining hands-on machine control experience with my robotics background
+                        to push forward R&amp;D in autonomous construction equipment, intelligent positioning, and advanced
+                        automation systems.</b>
                     </p>
                 </div>
+            </div>
+
+            <!-- scroll-driven paver: drives across as you scroll, laying asphalt -->
+            <div id="paver-track" aria-hidden="true">
+                <div id="paver-paved"></div>
+                <img id="paver-machine" src="images/machine.png" alt="" />
             </div>
         </div>
     </div>
@@ -154,11 +157,20 @@
                 <h3>Leica Geosystems part of Hexagon</h3>
                 <h4>Machine Control Software Engineer</h4>
                 <p>
-                    <a href="https://leica-geosystems.com/products/machine-control-systems">Leica Geosystems AG</a> is a Swiss company of the Swedish 
-                    Hexagon AB group. It produces measuring instruments for geodesy and building construction, for photogrammetry. 
-                    It is based in Heerbrugg on the border to Austria. My division is Machine Control and i look after MC1 Software with focus on paving functionalities. 
-                    For such purposes i use C++ and Qt.
+                    <a href="https://leica-geosystems.com/products/machine-control-systems">Leica Geosystems AG</a>, part of the
+                    Swedish Hexagon AB group, builds measuring instruments for geodesy, building construction and photogrammetry
+                    from its base in Heerbrugg, Switzerland. I work in the Machine Control division on
+                    <b>MC1</b>, the 3D machine control software that guides road-work and construction-site machines with laser
+                    positioning and GNSS &mdash; with a focus on paving functionalities. My work includes:
                 </p>
+                <ul>
+                    <li>Developing UI/UX and system features in <b>C++ and Qt</b>, delivering intuitive operator interfaces and
+                        reliable performance in the field.</li>
+                    <li>Implementing and debugging real-time communication over <b>CAN bus (PCAN)</b> to integrate machine
+                        controllers with positioning and automation systems.</li>
+                    <li>Working in <b>Agile/Scrum</b> teams to ship incremental improvements, optimize system stability and
+                        support deployment on active construction sites.</li>
+                </ul>
             </div>
 
             <div data-date="Rome, Italy <br> September 2021 – September 2022 ">
@@ -190,12 +202,60 @@
     </div>
     <!-- End #experience -->
 
-    <div id="education">
+    <div id="education" class="uni-edu">
+        <!-- scroll-driven backdrop: circuit traces, corner robots, draw-on formulas -->
+        <div id="uni-fx" aria-hidden="true">
+            <svg id="uni-circuit" viewBox="0 0 1000 1000" preserveAspectRatio="none">
+                <g id="uni-traces" fill="none" stroke="#4aa8e0" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M70 40 L70 300 L150 360 L150 640 L60 700 L60 960" />
+                    <path d="M120 120 L120 220 L40 270 L40 520" />
+                    <path d="M930 60 L930 280 L860 330 L860 600 L940 660 L940 950" />
+                    <path d="M880 160 L880 240 L960 300 L960 480" />
+                    <path d="M150 360 L250 360" />
+                    <path d="M860 330 L760 330" />
+                </g>
+                <g id="uni-nodes" fill="#ffcd00">
+                    <circle cx="70" cy="40" r="5" /><circle cx="150" cy="360" r="5" />
+                    <circle cx="60" cy="700" r="5" /><circle cx="40" cy="270" r="5" />
+                    <circle cx="930" cy="60" r="5" /><circle cx="860" cy="330" r="5" />
+                    <circle cx="940" cy="660" r="5" /><circle cx="960" cy="300" r="5" />
+                    <circle cx="250" cy="360" r="4" /><circle cx="760" cy="330" r="4" />
+                </g>
+            </svg>
+
+            <!-- top-down line-follower robots that ride the circuit traces -->
+            <svg class="uni-bot" data-path="0" viewBox="0 0 40 48">
+                <rect x="2" y="15" width="7" height="20" rx="2" fill="#16191e"/>
+                <rect x="31" y="15" width="7" height="20" rx="2" fill="#16191e"/>
+                <rect x="8" y="8" width="24" height="32" rx="6" fill="#20262f" stroke="#4aa8e0" stroke-width="2"/>
+                <circle class="uni-sensor" cx="14" cy="13" r="2" fill="#ffcd00"/>
+                <circle class="uni-sensor" cx="20" cy="12" r="2" fill="#ffcd00"/>
+                <circle class="uni-sensor" cx="26" cy="13" r="2" fill="#ffcd00"/>
+                <circle class="uni-eye" cx="20" cy="25" r="3.4" fill="#4aa8e0"/>
+            </svg>
+            <svg class="uni-bot" data-path="2" viewBox="0 0 40 48">
+                <rect x="2" y="15" width="7" height="20" rx="2" fill="#16191e"/>
+                <rect x="31" y="15" width="7" height="20" rx="2" fill="#16191e"/>
+                <rect x="8" y="8" width="24" height="32" rx="6" fill="#20262f" stroke="#ffcd00" stroke-width="2"/>
+                <circle class="uni-sensor" cx="14" cy="13" r="2" fill="#4aa8e0"/>
+                <circle class="uni-sensor" cx="20" cy="12" r="2" fill="#4aa8e0"/>
+                <circle class="uni-sensor" cx="26" cy="13" r="2" fill="#4aa8e0"/>
+                <circle class="uni-eye" cx="20" cy="25" r="3.4" fill="#ffcd00"/>
+            </svg>
+
+            <!-- draw-on formulas (revealed left-to-right as you scroll) -->
+            <div class="uni-formula uni-fx-left"  style="top:13%"><span>&tau; = J<sup>T</sup>F</span></div>
+            <div class="uni-formula uni-fx-right" style="top:33%"><span>v = J&thinsp;q&#775;</span></div>
+            <div class="uni-formula uni-fx-left"  style="top:58%"><span>&theta; &larr; &theta; &minus; &alpha;&nabla;L</span></div>
+            <div class="uni-formula uni-fx-right" style="top:78%"><span>y = &sigma;(Wx + b)</span></div>
+        </div>
+
         <h2 class="heading">University Education</h2>
         <div class="education-block">
             <h3>Università La Sapienza Roma</h3>
             <span class="education-date">Sept 2018 - May 2021</span>
-            <h4>Master In Artificial Intelligence and Robotics <br> 107/110</h4>
+            <h4>Master In Artificial Intelligence and Robotics</h4>
             <p>
                 During this master i've studied and developed several projects about both robot kinematics/motion
                 control as well as deep learning and computer vision.<br> In this master course i believe these were the
@@ -234,7 +294,7 @@
         <div class="education-block">
             <h3>Università Roma Tre</h3>
             <span class="education-date">Sept 2014 - March 2018</span>
-            <h4>Bachelor of Engineering in Computer Science <br> 97/110</h4>
+            <h4>Bachelor of Engineering in Computer Science</h4>
             <p>
                 During the bachelor course i've approached to computer science learning about programming theory,
                 telecommunications and automatic.<br> The fundamental exams taken during this period were:
@@ -263,7 +323,55 @@
     </div>
     <!-- End #education -->
 
-    <div id="education">
+    <div id="education" class="courses-fx-host">
+        <!-- study desk props: books, reading glasses, pencils -->
+        <div id="courses-fx" aria-hidden="true">
+            <!-- stacked books -->
+            <svg class="study-item study-books" data-kx="-70" data-ky="-240" data-spin="-16" viewBox="0 0 130 96">
+                <g>
+                    <rect x="8"  y="68" width="110" height="20" rx="3" fill="#3a6ea5"/>
+                    <rect x="14" y="70" width="6"  height="16" fill="#2a527d"/>
+                    <rect x="14" y="50" width="100" height="20" rx="3" fill="#ffcd00"/>
+                    <rect x="20" y="52" width="6"  height="16" fill="#caa400"/>
+                    <rect x="20" y="32" width="90" height="20" rx="3" fill="#5a5f68"/>
+                    <rect x="26" y="34" width="6"  height="16" fill="#43474e"/>
+                    <!-- pages edge -->
+                    <rect x="100" y="36" width="6" height="14" fill="#e7eaee" opacity="0.5"/>
+                </g>
+            </svg>
+
+            <!-- reading glasses -->
+            <svg class="study-item study-glasses" data-kx="70" data-ky="230" data-spin="20" viewBox="0 0 130 56">
+                <g fill="rgba(74,168,224,0.14)" stroke="#cfe6f5" stroke-width="3">
+                    <circle cx="34" cy="30" r="19"/>
+                    <circle cx="96" cy="30" r="19"/>
+                </g>
+                <path d="M53 26 q12 -9 24 0" fill="none" stroke="#cfe6f5" stroke-width="3"/>
+                <line x1="15" y1="23" x2="2"   y2="13" stroke="#cfe6f5" stroke-width="3" stroke-linecap="round"/>
+                <line x1="115" y1="23" x2="128" y2="13" stroke="#cfe6f5" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+
+            <!-- pencils -->
+            <svg class="study-item study-pencil study-pencil-1" data-rot="18" data-kx="50" data-ky="-230" data-spin="80" viewBox="0 0 26 120">
+                <polygon points="13,2 5,18 21,18" fill="#f2d6a2"/>
+                <polygon points="13,2 13,18 21,18" fill="#d9b87c"/>
+                <polygon points="10,9 16,9 13,2" fill="#3a3f47"/>
+                <rect x="5" y="18" width="16" height="82" fill="#ffcd00"/>
+                <rect x="5" y="18" width="5"  height="82" fill="#e0b400"/>
+                <rect x="5" y="100" width="16" height="8" fill="#9aa0a8"/>
+                <rect x="5" y="108" width="16" height="10" rx="2" fill="#ef8aa0"/>
+            </svg>
+            <svg class="study-item study-pencil study-pencil-2" data-rot="-24" data-kx="-50" data-ky="230" data-spin="-80" viewBox="0 0 26 120">
+                <polygon points="13,2 5,18 21,18" fill="#f2d6a2"/>
+                <polygon points="13,2 13,18 21,18" fill="#d9b87c"/>
+                <polygon points="10,9 16,9 13,2" fill="#3a3f47"/>
+                <rect x="5" y="18" width="16" height="82" fill="#4aa8e0"/>
+                <rect x="5" y="18" width="5"  height="82" fill="#2f86bb"/>
+                <rect x="5" y="100" width="16" height="8" fill="#9aa0a8"/>
+                <rect x="5" y="108" width="16" height="10" rx="2" fill="#ef8aa0"/>
+            </svg>
+        </div>
+
         <h2 class="heading">Courses and Certifications</h2>
 
         <div class="education-block">
@@ -338,8 +446,6 @@
                             for the whole team. I've started following tutorials on Gazebo and ROS best pratictes online
                             and i've
                             manage to deliver a reliable simulation of our future robot.</p>
-                        <a href="">View Project on
-                            Github</a>
                     </div>
                     <!-- End .project-info -->
                 </div>
@@ -366,8 +472,6 @@
                                 href="http://wiki.ros.org/teb_local_planner">TEB </a> is considered one of the best
                             planner around in ROS.
                         </p>
-                        <a href="">View Project on
-                            Github</a>
                     </div>
                     <!-- End .project-info -->
                 </div>
@@ -390,8 +494,6 @@
                             segmentation extracting the 3D location of the trash according to the robot center. The
                             final step is to command the planner to send the robot to that location.
                         </p>
-                        <a href="">View Project on
-                            Github</a>
                     </div>
                     <!-- End .project-info -->
                 </div>
@@ -411,8 +513,6 @@
                             previous project i've worked a bit with pointclouds, my solution came quite easy: this controller
                             tryes to segment a ground plane of points from the pointcloud and send alarm once it cannot. 
                         </p>
-                        <a href="">View Project on
-                            Github</a>
                     </div>
                     <!-- End .project-info -->
                 </div>
@@ -432,8 +532,6 @@
                             this topic and node manager checks in a loop every topic you want to track
                             and report an alarm for each of them not responding for a certain amount of time.
                         </p>
-                        <a href="">View Project on
-                            Github</a>
                     </div>
                     <!-- End .project-info -->
                 </div>
@@ -461,8 +559,6 @@
                             the calibration using an ABB robot, a camera and a machine vision software (HexSight). The
                             results obtained with this process demonstrated that automatic camera calibration can
                             achieve sub-milimetric accuracy aswell. </p>
-                        <a href="https://github.com/micheleciciolla/camera_calibration_hexsight">View Project on
-                            Github</a>
                     </div>
                     <!-- End .project-info -->
                 </div>
@@ -482,7 +578,6 @@
                             this project correspondences are taken as granted, so i focused more on the optimization
                             algorithm</b>.
                         </p>
-                        <a href="https://github.com/micheleciciolla/2D_range_only_slam">View Project on Github</a>
                     </div>
                     <!-- End .project-info -->
                 </div>
@@ -499,7 +594,6 @@
                             The aim of this project was to implement a hybrid visual and force controller for the
                             DaVinci robot in a simulated environment using <b>MATLAB</b> and <b>VREP-CoppeliaSim</b>.
                         </p>
-                        <a href="https://github.com/micheleciciolla/medrob-project">View Project on Github</a>
                     </div>
                     <!-- End .project-info -->
                 </div>
@@ -520,7 +614,6 @@
                             presence of communication delays and suddenly
                             brakes of the leader.
                         </p>
-                        <a href="https://github.com/micheleciciolla/vehicles-platooning">View Project on Github</a>
 
                     </div>
                     <!-- End .project-info -->
@@ -540,7 +633,6 @@
                             performance in classification. We've trained the last layers of a ResNet101 on a small
                             labeled dataset we've found in the web managing to obtain a 70% classification accuracy.
                         </p>
-                        <a href="https://github.com/micheleciciolla/covid-detector-CNN">View Project on Github</a>
 
 
                     </div>
@@ -556,26 +648,18 @@
         <h2 class="heading">Skills</h2>
         <ul>
             <li>Python</li>
-            <li>C/C++</li>
+            <li class="skill-shine">C/C++</li>
+            <li class="skill-shine">Qt</li>
             <li>Visual Basic</li>
         </ul>
         <ul>
             <li>ROS</li>
             <li>OpenCV</li>
-            <li>Tensorflow</li>
-            <li>MATLAB/Simulink</li>
         </ul>
         <ul>
-            <li>ABB RobotStudio</li>
-            <li>Universal Robot URSim</li>
-            <li>LMI HexSight</li>
-            <li>RobotDK</li>
-        </ul>
-        <ul>
-            <li>Linux</li>
-            <li>Windows</li>
-            <li>GIT</li>
-            <li>Docker</li>
+            <li class="skill-shine">Linux</li>
+            <li class="skill-shine">GIT</li>
+            <li class="skill-shine">Docker</li>
 
         </ul>
     </div>
@@ -586,6 +670,31 @@
         <h2>Write me on Linkedin <a href="https://it.linkedin.com/in/micheleciciolla">here</a></h2>
     </div>
 
+
+    <!-- Leica TPS 3D-tracking overlay -->
+    <div id="tps-tracker" aria-hidden="true">
+        <svg id="tps-laser-layer">
+            <defs>
+                <filter id="beam-blur" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="2.5" />
+                </filter>
+            </defs>
+            <line id="tps-beam-glow" x1="0" y1="0" x2="0" y2="0" />
+            <line id="tps-beam" x1="0" y1="0" x2="0" y2="0" />
+            <circle id="tps-emitter" cx="0" cy="0" r="0" />
+            <circle id="tps-hit" cx="0" cy="0" r="0" />
+        </svg>
+
+        <div id="tps-station">
+            <img id="tps-station-img" src="images/tps.png" alt="Leica total station" />
+            <span class="tps-reading">3D · Tracking</span>
+        </div>
+
+        <div id="tracking-prism">
+            <img id="tracking-prism-img" src="images/prism.png" alt="360° prism reflector" />
+        </div>
+    </div>
+    <!-- End #tps-tracker -->
 
     <footer>
         <div class="container">
@@ -621,6 +730,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="js/scripts.min.js"></script>
+    <script src="js/tps-tracker.js"></script>
 </body>
 
 </html>
