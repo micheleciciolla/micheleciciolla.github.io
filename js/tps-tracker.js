@@ -8,13 +8,17 @@
 (function () {
     "use strict";
 
-    var STATION_VB = { w: 96, h: 132 }; // station svg viewBox
-    var PIVOT = { x: 48, y: 33 };       // trunnion axis in svg units
-    var LENS_DIST = 42;                 // pivot -> objective lens (svg units)
+    // laser origin = telescope objective on tps.png, as a fraction of the image
+    // (image is 284x670; lens centre ~ (140, 55))
+    var LENS_FX = 0.49;
+    var LENS_FY = 0.082;
     var MOBILE_BP = 900;
     var NEAR_PX = 34;                   // distance to "lock" a marker
 
-    var wrap, station, stationSvg, head, prism, beam, beamGlow, hit;
+    var wrap, station, stationImg, prism, beam, beamGlow, emitter, hit;
+    var aboutSection, paverTrack, paverPaved, paverMachine;
+    var uniSection, uniCircuit, uniTraces = [], uniNodes = [], uniFormulas = [], uniBots = [];
+    var coursesSection, studyItems = [];
     var icons = [], firstIcon, lastIcon, expSection, eduSection;
     var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var ticking = false;
@@ -30,6 +34,34 @@
         expSection = $("experience");
         // first #education block is "University Education"
         eduSection = document.querySelector("#education");
+        aboutSection = $("about");
+
+        uniSection = document.querySelector(".uni-edu");
+        uniCircuit = $("uni-circuit");
+        uniTraces = Array.prototype.slice.call(document.querySelectorAll("#uni-traces path"));
+        uniNodes = Array.prototype.slice.call(document.querySelectorAll("#uni-nodes circle"));
+        uniFormulas = Array.prototype.slice.call(document.querySelectorAll(".uni-formula"));
+        uniBots = Array.prototype.slice.call(document.querySelectorAll(".uni-bot")).map(function (el) {
+            return { el: el, path: uniTraces[+el.getAttribute("data-path") || 0] };
+        });
+        // prime each trace for the draw-on (dash = full length, fully hidden)
+        for (var t = 0; t < uniTraces.length; t++) {
+            var L = uniTraces[t].getTotalLength();
+            uniTraces[t]._len = L;
+            uniTraces[t].style.strokeDasharray = L;
+            uniTraces[t].style.strokeDashoffset = L;
+        }
+
+        coursesSection = document.querySelector(".courses-fx-host");
+        studyItems = Array.prototype.slice.call(document.querySelectorAll(".study-item")).map(function (el) {
+            return {
+                el: el,
+                rot: parseFloat(el.getAttribute("data-rot")) || 0,
+                kx: parseFloat(el.getAttribute("data-kx")) || 0,
+                ky: parseFloat(el.getAttribute("data-ky")) || 0,
+                spin: parseFloat(el.getAttribute("data-spin")) || 0
+            };
+        });
     }
 
     // center of an element in document coordinates
@@ -43,8 +75,90 @@
 
     function isMobile() { return window.innerWidth <= MOBILE_BP; }
 
+    // drive the paver across its track as the About section scrolls past
+    function updatePaver() {
+        if (!aboutSection || !paverTrack || !paverMachine) return;
+        var r = aboutSection.getBoundingClientRect();
+        var vh = window.innerHeight;
+        // 0 when the section's top reaches viewport centre, 1 when its bottom does
+        var span = (r.height) || 1;
+        var p = (vh * 0.5 - r.top) / span;
+        if (p < 0) p = 0; else if (p > 1) p = 1;
+
+        var travel = paverTrack.clientWidth - paverMachine.clientWidth;
+        var x = p * travel;
+        paverMachine.style.transform = "translateX(" + x + "px)";
+        // pave up to the machine's middle
+        paverPaved.style.width = (x + paverMachine.clientWidth * 0.5) + "px";
+    }
+
+    // University Education: draw circuits, light nodes, "write" formulas with scroll
+    function updateUni() {
+        if (!uniSection) return;
+        var r = uniSection.getBoundingClientRect();
+        var vh = window.innerHeight;
+        var p = (vh - r.top) / (vh + r.height);
+        if (p < 0) p = 0; else if (p > 1) p = 1;
+
+        for (var i = 0; i < uniTraces.length; i++) {
+            var L = uniTraces[i]._len || uniTraces[i].getTotalLength();
+            uniTraces[i].style.strokeDashoffset = L * (1 - p);
+        }
+
+        // line-follower robots ride their trace at the drawing front
+        if (uniCircuit) {
+            // viewBox is 0..1000; SVG is stretched (preserveAspectRatio none)
+            var sx = uniCircuit.clientWidth / 1000, sy = uniCircuit.clientHeight / 1000;
+            for (var b = 0; b < uniBots.length; b++) {
+                var pa = uniBots[b].path;
+                if (!pa) continue;
+                var len = pa._len || pa.getTotalLength();
+                var d = p * len;
+                var c = pa.getPointAtLength(d);
+                var c2 = pa.getPointAtLength(Math.min(len, d + 2));
+                // convert to pixels (anisotropic scale) for position and heading
+                var px = c.x * sx, py = c.y * sy;
+                var ang = Math.atan2((c2.y - c.y) * sy, (c2.x - c.x) * sx) * 180 / Math.PI;
+                uniBots[b].el.style.transform =
+                    "translate(" + px + "px," + py + "px) translate(-50%,-50%) rotate(" + (ang + 90) + "deg)";
+            }
+        }
+        for (var n = 0; n < uniNodes.length; n++) {
+            uniNodes[n].classList.toggle("on", p > (n + 1) / (uniNodes.length + 2));
+        }
+        var N = uniFormulas.length;
+        for (var f = 0; f < N; f++) {
+            var start = f / N, end = (f + 0.85) / N;
+            var fp = (p - start) / (end - start);
+            if (fp < 0) fp = 0; else if (fp > 1) fp = 1;
+            var inset = "inset(0 " + ((1 - fp) * 100).toFixed(1) + "% 0 0)";
+            uniFormulas[f].style.webkitClipPath = inset;
+            uniFormulas[f].style.clipPath = inset;
+            uniFormulas[f].classList.toggle("writing", fp > 0.01 && fp < 0.99);
+        }
+    }
+
+    // Courses & Certifications: parallax-drift the study props as the section scrolls
+    function updateCourses() {
+        if (!coursesSection || !studyItems.length) return;
+        var r = coursesSection.getBoundingClientRect();
+        var vh = window.innerHeight;
+        var p = (vh - r.top) / (vh + r.height);
+        if (p < 0) p = 0; else if (p > 1) p = 1;
+        var c = p - 0.5; // -0.5 .. 0.5
+        for (var i = 0; i < studyItems.length; i++) {
+            var it = studyItems[i];
+            it.el.style.transform =
+                "translate(" + (c * it.kx).toFixed(1) + "px," + (c * it.ky).toFixed(1) + "px) " +
+                "rotate(" + (it.rot + c * it.spin).toFixed(1) + "deg)";
+        }
+    }
+
     function update() {
         ticking = false;
+        updatePaver();
+        updateUni();
+        updateCourses();
         if (!firstIcon || !lastIcon || !expSection) return;
 
         var vh = window.innerHeight;
@@ -78,28 +192,20 @@
         var prismY = prismDocY - scrollY;
         prism.style.transform = "translate(" + prismX + "px," + prismY + "px)";
 
-        // station pivot in viewport coords
-        var sRect = station.getBoundingClientRect();
-        var scale = sRect.width / STATION_VB.w;
-        var pivotX = sRect.left + PIVOT.x * scale;
-        var pivotY = sRect.top + PIVOT.y * scale;
+        // laser origin = telescope lens on the station photo, in viewport coords
+        var sRect = (stationImg || station).getBoundingClientRect();
+        var lensX = sRect.left + LENS_FX * sRect.width;
+        var lensY = sRect.top + LENS_FY * sRect.height;
 
-        // aim
-        var dx = prismX - pivotX;
-        var dy = prismY - pivotY;
-        var ang = Math.atan2(dy, dx);          // radians
-        var deg = ang * 180 / Math.PI;
-
-        head.setAttribute("transform", "rotate(" + deg.toFixed(2) + " " + PIVOT.x + " " + PIVOT.y + ")");
-
-        // laser leaves the objective lens, travels to the prism
-        var lensX = pivotX + Math.cos(ang) * LENS_DIST * scale;
-        var lensY = pivotY + Math.sin(ang) * LENS_DIST * scale;
-
+        // beam travels from the lens to the prism
         beam.setAttribute("x1", lensX); beam.setAttribute("y1", lensY);
         beam.setAttribute("x2", prismX); beam.setAttribute("y2", prismY);
         beamGlow.setAttribute("x1", lensX); beamGlow.setAttribute("y1", lensY);
         beamGlow.setAttribute("x2", prismX); beamGlow.setAttribute("y2", prismY);
+
+        emitter.setAttribute("cx", lensX);
+        emitter.setAttribute("cy", lensY);
+        emitter.setAttribute("r", 4);
 
         hit.setAttribute("cx", prismX);
         hit.setAttribute("cy", prismY);
@@ -144,13 +250,16 @@
     function init() {
         wrap = $("tps-tracker");
         station = $("tps-station");
-        stationSvg = $("tps-station-svg");
-        head = $("tps-head");
+        stationImg = $("tps-station-img");
         prism = $("tracking-prism");
+        paverTrack = $("paver-track");
+        paverPaved = $("paver-paved");
+        paverMachine = $("paver-machine");
         beam = $("tps-beam");
         beamGlow = $("tps-beam-glow");
+        emitter = $("tps-emitter");
         hit = $("tps-hit");
-        if (!wrap || !station || !head || !prism) return;
+        if (!wrap || !station || !prism) return;
 
         collect();
         setupReveal();
